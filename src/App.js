@@ -1,23 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Square from "./components/Square";
+import { nanoid } from "nanoid";
 
 function App() {
+  const [squares, setSquares] = React.useState(fillTheTable());
+
+  function fillTheTable() {
+    const blankTable = [];
+
+    for (let i = 1; i <= 9; i++) {
+      const square = {
+        isSelect: false,
+        id: nanoid(),
+      };
+      blankTable.push(square);
+    }
+
+    return blankTable;
+  }
+
+  function handleSelect(id) {
+    setSquares((oldSquares) => {
+      return oldSquares.map((square) => {
+        if (square.id === id) {
+          return {
+            ...square,
+            isSelect: !square.isSelect,
+          };
+        } else {
+          return {
+            ...square,
+          };
+        }
+      });
+    });
+  }
+
+  const setTable = squares.map((square) => {
+    return (
+      <Square
+        key={square.id}
+        isSelect={square.isSelect}
+        onClick={() => handleSelect(square.id)}
+      />
+    );
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper">
+      <h1>Tic Tac Toe</h1>
+      <div className="gameWrapper">{setTable}</div>
     </div>
   );
 }
