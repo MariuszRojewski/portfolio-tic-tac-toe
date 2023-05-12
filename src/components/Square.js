@@ -7,7 +7,7 @@ export default function Square({ isSelect, onClick }) {
   };
   return (
     <div className="square" style={styles} onClick={onClick}>
-      {isSelect ? "X" : "O"}
+      {isSelect === null ? "" : isSelect ? "X" : "O"}
     </div>
   );
 }

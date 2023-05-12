@@ -3,14 +3,15 @@ import Square from "./components/Square";
 import { nanoid } from "nanoid";
 
 function App() {
-  const [squares, setSquares] = React.useState(fillTheTable());
+  const [squares, setSquares] = React.useState(fillTheTable(null));
+  const [player, setPlayer] = React.useState(false);
 
-  function fillTheTable() {
+  function fillTheTable(value) {
     const blankTable = [];
 
     for (let i = 1; i <= 9; i++) {
       const square = {
-        isSelect: false,
+        isSelect: value,
         id: nanoid(),
       };
       blankTable.push(square);
@@ -20,13 +21,21 @@ function App() {
   }
 
   function handleSelect(id) {
+    setPlayer(!player);
+    console.log(player);
+
     setSquares((oldSquares) => {
       return oldSquares.map((square) => {
         if (square.id === id) {
-          return {
-            ...square,
-            isSelect: !square.isSelect,
-          };
+          const odp =
+            square.isSelect === null
+              ? {
+                  ...square,
+                  isSelect: (square.isSelect = player),
+                }
+              : { ...square };
+
+          return odp;
         } else {
           return {
             ...square,
