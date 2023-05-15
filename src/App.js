@@ -1,5 +1,6 @@
 import React from "react";
 import Square from "./components/Square";
+import Winner from "./components/Winner";
 import { nanoid } from "nanoid";
 
 function App() {
@@ -21,9 +22,17 @@ function App() {
   }
 
   function handleSelect(id) {
-    setPlayer(!player);
-    console.log(player);
+    squares.forEach((el) => {
+      if (el.id === id) {
+        if (el.isSelect === null) {
+          setPlayer(!player);
+        } else {
+          return;
+        }
+      }
+    });
 
+    // Popraw zmienną odp na coś normalnego
     setSquares((oldSquares) => {
       return oldSquares.map((square) => {
         if (square.id === id) {
@@ -59,6 +68,7 @@ function App() {
     <div className="wrapper">
       <h1>Tic Tac Toe</h1>
       <div className="gameWrapper">{setTable}</div>
+      <h2>The winner is {<Winner allSquares={squares} />}</h2>
     </div>
   );
 }
