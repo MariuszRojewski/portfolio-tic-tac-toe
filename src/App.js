@@ -1,11 +1,18 @@
 import React from "react";
 import Square from "./components/Square";
-import Winner from "./components/Winner";
+// import Winner from "./components/Winner";
 import { nanoid } from "nanoid";
+
+// Calość przeorana, nic nie działa... Sprawdź to rano.
+// chciałeś wyciągnąć z komponentu winner ustawianie,
+// X i O i coś ci się nie udało :)
 
 function App() {
   const [squares, setSquares] = React.useState(fillTheTable(null));
   const [player, setPlayer] = React.useState(false);
+  const [allFigure, setAllFigure] = React.useState([]);
+
+  // console.log(winner);
 
   function fillTheTable(value) {
     const blankTable = [];
@@ -54,6 +61,26 @@ function App() {
     });
   }
 
+  // function handleWinner(value) {
+  //   setWinner(value);
+  // }
+
+  squares.forEach((element) => {
+    if (element.isSelect) {
+      setAllFigure((prevArray) => {
+        return [...prevArray, "X"];
+      });
+    } else if (element.isSelect === false) {
+      setAllFigure((prevArray) => {
+        return [...prevArray, "O"];
+      });
+    } else {
+      setAllFigure((prevArray) => {
+        return [...prevArray, ""];
+      });
+    }
+  });
+
   const setTable = squares.map((square) => {
     return (
       <Square
@@ -68,7 +95,7 @@ function App() {
     <div className="wrapper">
       <h1>Tic Tac Toe</h1>
       <div className="gameWrapper">{setTable}</div>
-      <h2>The winner is {<Winner allSquares={squares} />}</h2>
+      <h2>The winner is {""}</h2>
     </div>
   );
 }
