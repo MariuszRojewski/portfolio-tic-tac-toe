@@ -7,6 +7,7 @@ function App() {
   const [squares, setSquares] = React.useState(fillTheTable(null));
   const [player, setPlayer] = React.useState(false);
   const [allFigure, setAllFigure] = React.useState([]);
+  const [winner, setWiner] = React.useState(null);
 
   React.useEffect(() => {
     const arrayOfFigures = squares.map((square) => {
@@ -50,7 +51,10 @@ function App() {
     // Popraw zmienną odp na coś normalnego
     setSquares((oldSquares) => {
       return oldSquares.map((square) => {
-        if (square.id === id) {
+        // Trzeba dokończyć w tym miejscu theWinnerIs is not a function
+        if (winner !== null) {
+          return;
+        } else if (square.id === id) {
           const odp =
             square.isSelect === null
               ? {
@@ -79,11 +83,24 @@ function App() {
     );
   });
 
+  function theWinnerIs(winner) {
+    setWiner(winner);
+  }
+
   return (
     <div className="wrapper">
       <h1>Tic Tac Toe</h1>
       <div className="gameWrapper">{setTable}</div>
-      <h2>The winner is {<Winner table={allFigure} />}</h2>
+      <h2>
+        The winner is{" "}
+        {
+          <Winner
+            table={allFigure}
+            thwWinnerIs={() => theWinnerIs}
+            winner={winner}
+          />
+        }
+      </h2>
     </div>
   );
 }
