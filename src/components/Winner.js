@@ -1,54 +1,43 @@
 import React from "react";
 
-// React Hook React.useEffect has a missing dependency: 'theWinnerIs'.
-// Napraw błąd wysepujacy po przekazaniu odwołania do state w
-// komponencie APP wyzej, Nasepnie dokończ blokowanie dalszej opcji
-// klikania kienek do zaznaczania - linia 55 w APP
-
-const Winner = ({ table, theWinnerIs }) => {
+const Winner = ({ table, setWiner }) => {
   const [gameWinner, setGameWinner] = React.useState(null);
-  React.useEffect(() => {
-    let winner = null;
 
-    if (table[0] === "O" && table[1] === "O" && table[2] === "O") {
-      winner = "O";
-    } else if (table[0] === "O" && table[3] === "O" && table[6] === "O") {
-      winner = "O";
-    } else if (table[0] === "O" && table[3] === "O" && table[6] === "O") {
-      winner = "O";
-    } else if (table[2] === "O" && table[5] === "O" && table[8] === "O") {
-      winner = "O";
-    } else if (table[6] === "O" && table[7] === "O" && table[8] === "O") {
-      winner = "O";
-    } else if (table[0] === "O" && table[4] === "O" && table[8] === "O") {
-      winner = "O";
-    } else if (table[2] === "O" && table[4] === "O" && table[6] === "O") {
-      winner = "O";
-    } else if (table[0] === "X" && table[3] === "X" && table[6] === "X") {
-      winner = "X";
-    } else if (table[2] === "X" && table[5] === "X" && table[8] === "X") {
-      winner = "X";
-    } else if (table[6] === "X" && table[7] === "X" && table[8] === "X") {
-      winner = "X";
-    } else if (table[0] === "X" && table[4] === "X" && table[8] === "X") {
-      winner = "X";
-    } else if (table[2] === "X" && table[4] === "X" && table[6] === "X") {
-      winner = "X";
-    } else if (table[0] === "X" && table[1] === "X" && table[2] === "X") {
-      winner = "X";
-    } else if (table[0] === "X" && table[3] === "X" && table[6] === "X") {
-      winner = "X";
-    } else {
-      return;
+  React.useEffect(() => {
+    const winningFields = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    function calculateWinner(table) {
+      for (let i = 0; i < winningFields.length; i++) {
+        const [a, b, c] = winningFields[i];
+        if (table[a] && table[a] === table[b] && table[a] === table[c]) {
+          return table[a];
+        }
+      }
+      return null;
     }
+
+    const winner = calculateWinner(table);
 
     if (winner !== null) {
-      theWinnerIs(winner);
+      setWiner(winner);
       setGameWinner(winner);
     }
-  }, [table]);
+  }, [table, setWiner]);
 
-  return <span>{gameWinner !== null ? gameWinner : "?"}</span>;
+  return (
+    <span className="winner--figure">
+      {gameWinner !== null ? gameWinner : "?"}
+    </span>
+  );
 };
 
 export default Winner;

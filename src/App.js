@@ -3,6 +3,9 @@ import Square from "./components/Square";
 import Winner from "./components/Winner";
 import { nanoid } from "nanoid";
 
+// Gra zakończona, dodj sobie jeszcze zapis wygranych dla X i O
+// po lewej i prawej stronie
+
 function App() {
   const [squares, setSquares] = React.useState(fillTheTable(null));
   const [player, setPlayer] = React.useState(false);
@@ -48,13 +51,11 @@ function App() {
       }
     });
 
-    // Popraw zmienną odp na coś normalnego
     setSquares((oldSquares) => {
+      if (winner !== null) return oldSquares;
+
       return oldSquares.map((square) => {
-        // Trzeba dokończyć w tym miejscu theWinnerIs is not a function
-        if (winner !== null) {
-          return;
-        } else if (square.id === id) {
+        if (square.id === id) {
           const odp =
             square.isSelect === null
               ? {
@@ -73,6 +74,14 @@ function App() {
     });
   }
 
+  function startNewGame() {
+    console.log("Nowa gra");
+    setSquares(fillTheTable(null));
+    setPlayer(false);
+    setAllFigure([]);
+    setWiner(null);
+  }
+
   const setTable = squares.map((square) => {
     return (
       <Square
@@ -83,24 +92,25 @@ function App() {
     );
   });
 
-  function theWinnerIs(winner) {
-    setWiner(winner);
-  }
-
   return (
     <div className="wrapper">
       <h1>Tic Tac Toe</h1>
       <div className="gameWrapper">{setTable}</div>
-      <h2>
-        The winner is{" "}
-        {
+      <div className="winner--table">
+        <h2>
+          The winner is
           <Winner
             table={allFigure}
-            thwWinnerIs={() => theWinnerIs}
-            winner={winner}
+            setWiner={setWiner}
+            winner={winner ? winner : null}
           />
-        }
-      </h2>
+        </h2>
+        {winner && (
+          <button className="winner--new-game" onClick={startNewGame}>
+            New Game
+          </button>
+        )}
+      </div>
     </div>
   );
 }

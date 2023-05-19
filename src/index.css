@@ -50,3 +50,32 @@ code {
 
   cursor: pointer;
 }
+
+.winner--table {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.winner--figure {
+  margin: 0 10px;
+}
+
+.winner--new-game {
+  display: flex;
+  background-color: green;
+  border-radius: 15px;
+  border: 0;
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 10px 25px;
+  margin-top: 0px;
+  cursor: pointer;
+}
+
+.winner--new-game:hover {
+  background-color: rgb(3, 66, 3);
+}
